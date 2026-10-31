@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata: {name: launchpad-templates, description: LaunchPad golden-path templates}
+spec:
+  targets: [./templates/python-fastapi/template.yaml]
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata: {name: launchpad, description: Self-service developer platform}
+spec: {owner: platform-team}
