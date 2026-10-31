@@ -1,0 +1,9 @@
+replicaCount: 1
+image: {repository: ghcr.io/example/demo-orders-731, tag: "0.1.0", pullPolicy: IfNotPresent}
+serviceAccount: {create: true, name: demo-orders-731}
+securityContext: {runAsNonRoot: true, runAsUser: 10001, allowPrivilegeEscalation: false, capabilities: {drop: [ALL]}}
+resources:
+  requests: {cpu: 100m, memory: 128Mi}
+  limits: {cpu: 500m, memory: 512Mi}
+service: {type: ClusterIP, port: 8000}
+env: {SERVICE_NAME: demo-orders-731, SERVICE_VERSION: "0.1.0", SERVICE_ENVIRONMENT: dev}
