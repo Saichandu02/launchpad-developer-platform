@@ -1,0 +1,24 @@
+app:
+  title: LaunchPad
+  baseUrl: http://localhost:3000
+backend:
+  baseUrl: http://localhost:7007
+  database:
+    client: pg
+    connection:
+      host: ${POSTGRES_HOST:-localhost}
+      port: ${POSTGRES_PORT:-5432}
+      user: ${POSTGRES_USER:-backstage}
+      password: ${POSTGRES_PASSWORD:-backstage}
+catalog:
+  locations:
+    - type: file
+      target: ./catalog-info.yaml
+    - type: file
+      target: ./templates/python-fastapi/template.yaml
+scaffolder:
+  defaultAuthor:
+    name: LaunchPad
+auth:
+  providers:
+    guest: {}
