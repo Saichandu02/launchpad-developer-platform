@@ -1,0 +1,12 @@
+.venv/
+venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+.env
+node_modules/
+dist/
+.terraform/
+*.tfstate*
+/generated/
+examples/*/app/__pycache__/
