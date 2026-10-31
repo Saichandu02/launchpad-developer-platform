@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: __SERVICE_NAME__
+  description: __SERVICE_DESCRIPTION__
+  annotations:
+    github.com/project-slug: example/__SERVICE_NAME__
+    argocd/app-name: __SERVICE_NAME__
+spec:
+  type: service
+  lifecycle: experimental
+  owner: __OWNER__
+  system: launchpad
