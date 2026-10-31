@@ -1,0 +1,27 @@
+
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: python-fastapi-service
+  title: Python FastAPI Service (LaunchPad golden path)
+  description: Generate a tested FastAPI service with Dockerfile, Helm chart, CI and catalog entry
+spec:
+  owner: platform-team
+  type: service
+  parameters:
+    - title: Service details
+      required: [name, description, owner, environment]
+      properties:
+        name: {title: Service name, type: string, pattern: "^[a-z][a-z0-9-]{2,30}[a-z0-9]$", ui: {autofocus: true}}
+        description: {title: Description, type: string, maxLength: 140}
+        owner: {title: Owner, type: string}
+        environment: {title: Environment, type: string, enum: [dev, staging, prod], default: dev}
+    - title: Repository (connected mode only)
+      properties:
+        repoUrl: {title: Repo URL, type: string, ui: {field: RepoUrlPicker, options: {allowedHosts: [github.com]}}}
+  steps:
+    - {id: fetch, name: Fetch skeleton, action: fetch:template, input: {url: ./skeleton, values: {name: "${{ parameters.name }}", description: "${{ parameters.description }}", owner: "${{ parameters.owner }}", environment: "${{ parameters.environment }}"}}}
+    - {id: publish, name: Publish to GitHub (connected mode), action: publish:github, input: {repoUrl: "${{ parameters.repoUrl }}", description: "${{ parameters.description }}"}}
+    - {id: register, name: Register in catalog, action: catalog:register, input: {repoContentsUrl: "${{ steps.publish.output.repoContentsUrl }}", catalogInfoPath: /catalog-info.yaml}}
+  output:
+    links: [{title: Repository, url: "${{ steps.publish.output.remoteUrl }}"}, {title: Catalog entry, icon: catalog, entityRef: "${{ steps.register.output.entityRef }}"}]
