@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: {{ .Chart.Name }}}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector: {matchLabels: {app: {{ .Chart.Name }}}}
+  template:
+    metadata: {labels: {app: {{ .Chart.Name }}}}
+    spec:
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+      securityContext: {runAsNonRoot: true, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: app
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports: [{containerPort: 8000}]
+          env:
+            {{- range $k, $v := .Values.env }}
+            - {name: {{ $k }}, value: {{ $v | quote }}}
+            {{- end }}
+          securityContext: {{- toYaml .Values.securityContext | nindent 12 }}
+          resources: {{- toYaml .Values.resources | nindent 12 }}
+          livenessProbe: {httpGet: {path: /healthz, port: 8000}, initialDelaySeconds: 5, periodSeconds: 10}
+          readinessProbe: {httpGet: {path: /readyz, port: 8000}, initialDelaySeconds: 3, periodSeconds: 5}
