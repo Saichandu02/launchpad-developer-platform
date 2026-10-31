@@ -1,0 +1,3 @@
+# GitOps (local folder + Argo CD config)
+
+`launchpad create --gitops-dir <folder>` writes `<service>/values.yaml` there and git-commits it. `update` commits a new image tag. `rollback` runs `git revert HEAD` — a **new commit that restores the previous desired state**. That is the rollback that survives Argo CD: a manual `kubectl rollout undo` changes only cluster state, Argo's next sync would re-apply the (newer) Git state and undo your undo. A revert changes Git itself, so reconciliation converges on the old version. Verified locally in tests/test_scaffold.py and in the demo (docs/verification.md).
