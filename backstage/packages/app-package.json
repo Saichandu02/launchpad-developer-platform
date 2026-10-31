@@ -1,0 +1,7 @@
+{
+  "name": "root",
+  "private": true,
+  "engines": {"node": "20 || 22 || 24"},
+  "scripts": {"start": "backstage-cli app:dev"},
+  "note": "Skeleton only — generate the full app with @backstage/create-app and merge app-config.yaml; see backstage/README.md"
+}
