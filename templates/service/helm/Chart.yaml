@@ -1,0 +1,6 @@
+apiVersion: v2
+name: __SERVICE_NAME__
+type: application
+version: 0.1.0
+appVersion: "__VERSION__"
+description: __SERVICE_DESCRIPTION__
